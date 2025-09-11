@@ -10,7 +10,9 @@
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "noEmit": true,
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "exclude": ["node_modules", "dist", "coverage"]
 }

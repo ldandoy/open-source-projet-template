@@ -7,8 +7,6 @@ import { AppModule } from "../src/app.module.js";
 
 let app: NestFastifyApplication;
 
-process.env.NODE_ENV = process.env.NODE_ENV || "test";
-
 beforeAll(async () => {
   app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
   app.setGlobalPrefix("api");
