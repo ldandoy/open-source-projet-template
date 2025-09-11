@@ -26,30 +26,85 @@ Un template de projet open source avec monorepo utilisant les dernières technol
 
 - Node.js ≥ 20.10.0
 - pnpm 10.15.1
+- Docker & Docker Compose
 
-### Démarrage rapide
+### Option 1 : Développement hybride (recommandé)
+
+**Le meilleur des deux mondes : infrastructure Docker + apps locales avec hot-reload**
+
+```bash
+# 1. Infrastructure uniquement (DB, pgAdmin, Mailpit)
+cd infra/compose
+make dev
+
+# 2. Applications en local avec hot-reload
+cd ../../
+pnpm install
+pnpm dev
+```
+
+**Services disponibles :**
+
+- 🔥 **API** : http://localhost:5000 (hot-reload)
+- 🔥 **Web** : http://localhost:3000 (hot-reload)
+- 🗄️ **PostgreSQL** : localhost:5432
+- 🔧 **pgAdmin** : http://localhost:8081 (admin@example.com / admin)
+- 📧 **Mailpit** : http://localhost:8025
+
+### Option 2 : Développement full-local
 
 ```bash
 # Installation
 pnpm install
 
-# Développement (lance les deux apps)
-pnpm dev
+# Développement (sans Docker)
+pnpm dev                    # Lance API + Web en mode dev
+pnpm -F ./apps/api dev      # API uniquement (port 5000)
+pnpm -F ./apps/web dev      # Web uniquement (port 3000)
 ```
 
-### Commandes disponibles
+### Option 3 : Environnement complet Docker
 
 ```bash
-# Développement
-pnpm dev                    # Lance API + Web
-pnpm -F ./apps/api dev      # API uniquement (port 4000)
+# Tous les services en Docker (mode production-like)
+cd infra/compose
+make up
+```
+
+**Services disponibles :**
+
+- 🏢 **API** : http://localhost:5000 (Docker)
+- 🏢 **Web** : http://localhost:3000 (Docker)
+- 🗄️ **PostgreSQL** : localhost:5432
+- 🔧 **pgAdmin** : http://localhost:8081
+- 📧 **Mailpit** : http://localhost:8025
+
+## 🔧 Commandes disponibles
+
+### Développement local
+
+```bash
+pnpm dev                    # API + Web avec hot-reload
+pnpm -F ./apps/api dev      # API uniquement
 pnpm -F ./apps/web dev      # Web uniquement
+```
 
-# Construction
-pnpm -F ./apps/api build    # Build API
-pnpm -F ./apps/web build    # Build Web
+### Docker
 
-# Tests & Qualité
+```bash
+cd infra/compose
+
+make dev                    # Infrastructure uniquement
+make up                     # Tous les services
+make down                   # Arrêter tous les services
+make logs                   # Voir les logs
+make status                 # Statut des services
+make build                  # Reconstruire les images
+```
+
+### Tests & Qualité
+
+```bash
 pnpm test                   # Tests avec Vitest
 pnpm lint                   # ESLint
 pnpm format                 # Vérification Prettier

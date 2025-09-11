@@ -1,0 +1,66 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: devpass
+      POSTGRES_DB: ossdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dev -d ossdb"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4:8.8
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@example.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    ports:
+      - "8081:80" # UI: http://localhost:8081
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin # (persistant)
+    restart: unless-stopped
+
+  # Mail de dev (SMTP + UI)
+  mailpit:
+    image: axllent/mailpit:latest
+    environment:
+      MP_MAX_MESSAGES: 10000
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # Web UI
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ../..
+      dockerfile: apps/api/Dockerfile
+    environment:
+      PORT: 5000
+      DATABASE_URL: postgres://dev:devpass@db:5432/ossdb
+    depends_on: [db]
+    ports: ["5000:5000"] # http://localhost:5000
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ../..
+      dockerfile: apps/web/Dockerfile
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:5000
+    depends_on: [api]
+    ports: ["3000:3000"] # http://localhost:3000
+    restart: unless-stopped
+
+volumes:
+  pg_data:
+  pgadmin_data:

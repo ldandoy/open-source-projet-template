@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+coverage/
+
+# Environment files
+.env
+.env.*
+
+# Development files
+.husky/
+*.log

@@ -10,7 +10,7 @@
     "node": ">=20.10.0"
   },
   "scripts": {
-    "prepare": "husky",
+    "prepare": "husky || true",
     "lint": "eslint .",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
