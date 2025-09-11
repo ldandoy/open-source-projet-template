@@ -1,0 +1,12 @@
+node_modules/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+package-lock.json
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db

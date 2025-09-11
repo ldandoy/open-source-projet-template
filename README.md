@@ -1,0 +1,4 @@
+- **apps/web** : Next.js/React opérationnel.
+- **apps/api** : Express TypeScript sur **:4000** (health + hello).
+- **Qualité** : ESLint, Prettier, TypeScript strict, Vitest, Husky + lint-staged, commitlint.
+- **Dev** : `pnpm dev` lance Web + API ensemble.
