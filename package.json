@@ -1,7 +1,7 @@
 {
   "name": "oss-stack",
   "private": true,
-  "packageManager": "pnpm@latest",
+  "packageManager": "pnpm@10.15.1",
   "workspaces": [
     "apps/*"
   ],
