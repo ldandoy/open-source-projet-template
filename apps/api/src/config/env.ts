@@ -5,8 +5,8 @@ export const EnvSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().positive().default(4000),
 
-  // Placeholders pour la suite (Phase 2+)
-  DATABASE_URL: z.string().url().optional(),
+  // Database
+  DATABASE_URL: z.string().url(),
   KEYCLOAK_URL: z.string().url().optional(),
   REDIS_URL: z.string().url().optional(),
   MINIO_ENDPOINT: z.string().optional(),

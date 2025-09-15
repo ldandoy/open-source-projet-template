@@ -1,8 +1,10 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { EnvSchema } from "./config/env.js";
-import { HealthModule } from "./health/health.module.js";
-import { ProjectsModule } from "./projects/projects.module.js";
+import { EnvSchema } from "./config/env";
+import { DatabaseModule } from "./database/database.module";
+import { HealthModule } from "./health/health.module";
+import { ProjectsModule } from "./projects/projects.module";
+import { AdminModule } from "./admin/admin.module";
 
 @Module({
   imports: [
@@ -17,8 +19,10 @@ import { ProjectsModule } from "./projects/projects.module.js";
       ],
       validate: (raw) => EnvSchema.parse(raw), // ❗ fail fast si invalide/manquant
     }),
+    DatabaseModule,
     HealthModule,
     ProjectsModule,
+    AdminModule,
   ],
 })
 export class AppModule {}

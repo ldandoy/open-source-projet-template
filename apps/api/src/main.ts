@@ -7,7 +7,7 @@ import fastifyCompress from "@fastify/compress";
 import fastifyStatic from "@fastify/static";
 import { join } from "node:path";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { AppModule } from "./app.module.js";
+import { AppModule } from "./app.module";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -15,7 +15,11 @@ async function bootstrap() {
     new FastifyAdapter({ logger: true })
   );
   await app.register(fastifyHelmet, { contentSecurityPolicy: false });
-  await app.register(fastifyCors, { origin: true, credentials: true });
+  await app.register(fastifyCors, {
+    origin: true,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  });
   await app.register(fastifyCompress);
 
   await app.register(fastifyStatic, {

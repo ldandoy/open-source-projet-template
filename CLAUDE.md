@@ -84,3 +84,11 @@ API supports environment file hierarchy:
 4. `.env`
 
 Environment variables are validated at startup using Zod schemas.
+
+# important-instruction-reminders
+
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (\*.md) or README files. Only create documentation files if explicitly requested by the User.
+NEVER USE MOCK DATA - Always connect to real database/API. No hardcoded arrays or fake data.
